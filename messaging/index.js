@@ -9,7 +9,7 @@
 const https = require('https');
 const { google } = require('googleapis');
 
-const PROJECT_ID = '<YOUR-PROJECT-ID>';
+const PROJECT_ID = 'zeke-160bc';
 const HOST = 'fcm.googleapis.com';
 const PATH = '/v1/projects/' + PROJECT_ID + '/messages:send';
 const MESSAGING_SCOPE = 'https://www.googleapis.com/auth/firebase.messaging';
@@ -35,6 +35,7 @@ function getAccessToken() {
         return;
       }
       resolve(tokens.access_token);
+      console.log(tokens.access_token);
     });
   });
 }
@@ -53,26 +54,26 @@ function sendFcmMessage(fcmMessage) {
       method: 'POST',
       // [START use_access_token]
       headers: {
-        'Authorization': 'Bearer ' + accessToken
+        'Authorization': 'Bearer '
       }
       // [END use_access_token]
     };
 
-    const request = https.request(options, function(resp) {
-      resp.setEncoding('utf8');
-      resp.on('data', function(data) {
-        console.log('Message sent to Firebase for delivery, response:');
-        console.log(data);
-      });
-    });
+    // const request = https.request(options, function(resp) {
+    //   resp.setEncoding('utf8');
+    //   resp.on('data', function(data) {
+    //     console.log('Message sent to Firebase for delivery, response:');
+    //     console.log(data);
+    //   });
+    // });
 
-    request.on('error', function(err) {
-      console.log('Unable to send message to Firebase');
-      console.log(err);
-    });
+    // request.on('error', function(err) {
+    //   console.log('Unable to send message to Firebase');
+    //   console.log(err);
+    // });
 
-    request.write(JSON.stringify(fcmMessage));
-    request.end();
+    // request.write(JSON.stringify(fcmMessage));
+    // request.end();
   });
 }
 
@@ -82,25 +83,7 @@ function sendFcmMessage(fcmMessage) {
  */
 function buildOverrideMessage() {
   const fcmMessage = buildCommonMessage();
-  const apnsOverride = {
-    'payload': {
-      'aps': {
-        'badge': 1
-      }
-    },
-    'headers': {
-      'apns-priority': '10'
-    }
-  };
-
-  const androidOverride = {
-    'notification': {
-      'click_action': 'android.intent.action.MAIN'
-    }
-  };
-
-  fcmMessage['message']['android'] = androidOverride;
-  fcmMessage['message']['apns'] = apnsOverride;
+  
 
   return fcmMessage;
 }
@@ -113,11 +96,7 @@ function buildOverrideMessage() {
 function buildCommonMessage() {
   return {
     'message': {
-      'topic': 'news',
-      'notification': {
-        'title': 'FCM Notification',
-        'body': 'Notification from FCM'
-      }
+      'topic': 'randomtopicnamenotregistered'
     }
   };
 }
