@@ -54,7 +54,7 @@ function sendFcmMessage(fcmMessage) {
       method: 'POST',
       // [START use_access_token]
       headers: {
-        'Authorization': 'Bearer '
+        'AuthorizationHarsh': 'BearerHarsh '
       }
       // [END use_access_token]
     };
